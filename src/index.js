@@ -79,7 +79,10 @@ const MoveList = (props) => {
 };
 
 MoveList.propTypes = {
-  moves: React.PropTypes.array.isRequired
+  moves: React.PropTypes.arrayOf(React.PropTypes.shape({
+    number: React.PropTypes.number,
+    response: React.PropTypes.string
+  })).isRequired
 };
 
 class App extends Component {
