@@ -1,5 +1,17 @@
 body {
-  background-color: #bada55;
   display: flex;
   justify-content: center;
+}
+
+.move-correct {
+  color: green;
+}
+
+.move-incorrect {
+  color: red;
+}
+
+.move-list {
+  display: flex;
+  flex-direction: column-reverse;
 }

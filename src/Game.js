@@ -8,7 +8,6 @@ class Game {
   constructor(number) {
     this.targetNumber = number;
     this._finished = false;
-    // Math.floor(Math.random() * 10);
   }
 
   get finished() {
