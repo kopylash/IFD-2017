@@ -20,7 +20,6 @@ class GuessForm extends Component {
     } else {
       this.setState({guessNumber: ''});
     }
-
   }
 
   onEnterKey(event) {
@@ -84,26 +83,17 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      finished: false,
-      moves: []
-    }
+      finished: game.finished,
+      moves: game.moves
+    };
   }
 
   guessTheNumber(num) {
-    let result = game.guess(num);
-
-    switch (result) {
-      case 'WIN':
-        this.setState({
-          finished: true,
-          moves: [...this.state.moves, {number: num, response: result}]
-        });
-        break;
-      case 'SMALL':
-      case 'BIG':
-        this.setState({moves: [...this.state.moves, {number: num, response: result}]});
-        break;
-    }
+    game.guess(num);
+    this.setState({
+      finished: game.finished,
+      moves: [...game.moves]
+    });
   }
 
   render() {
@@ -122,5 +112,3 @@ ReactDOM.render(
   <App />,
   document.getElementById('root')
 );
-
-

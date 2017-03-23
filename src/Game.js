@@ -8,18 +8,30 @@ class Game {
   constructor(number) {
     this.targetNumber = number;
     this._finished = false;
+    this._moves = [];
   }
 
   get finished() {
     return this._finished;
   }
 
+  get moves() {
+    return this._moves;
+  }
+
   guess(number) {
+    let response;
+
     if (number === this.targetNumber) {
       this._finished = true;
-      return WIN;
+      response = WIN;
+    } else {
+      response = number < this.targetNumber ? SMALL : BIG;
     }
-    return (number < this.targetNumber ? SMALL : BIG);
+
+    this._moves.push({number, response});
+
+    return response;
   }
 }
 
