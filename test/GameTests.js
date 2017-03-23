@@ -4,6 +4,7 @@ describe('Game', () => {
   it('should return WIN when guess is correct', () => {
     const game = new Game(5);
     expect(game.guess(5)).to.eql('WIN');
+    expect(game.finished).to.eql(true);
   });
 
   it('should return SMALL when guess is less than target number', () => {

@@ -7,16 +7,21 @@ const BIG = 'BIG';
 class Game {
   constructor(number) {
     this.targetNumber = number;
+    this._finished = false;
     // Math.floor(Math.random() * 10);
+  }
+
+  get finished() {
+    return this._finished;
   }
 
   guess(number) {
     if (number === this.targetNumber) {
+      this._finished = true;
       return WIN;
     }
     return (number < this.targetNumber ? SMALL : BIG);
   }
-
 }
 
 export default Game;
