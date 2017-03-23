@@ -25,6 +25,9 @@ class GuessForm extends Component {
   onEnterKey(event) {
     if (event.keyCode === 13) {
       let num = this.state.guessNumber;
+
+      this.setState({guessNumber: ''});
+
       if (num.length) {
         this.props.onSubmit(parseInt(num));
       }
