@@ -1,17 +1,11 @@
 'use strict';
 
 import React from 'react';
+import Move from './Move';
 
 const MoveList = (props) => {
   const moves = props.moves.map((move, idx) => {
-    switch (move.response) {
-      case 'WIN':
-        return (<p className="green" key={idx}>{`${move.number}: was correct`}</p>);
-      case 'SMALL':
-        return (<p className="red" key={idx}>{`${move.number}: was smaller than target`}</p>);
-      case 'BIG':
-        return (<p className="red" key={idx}>{`${move.number}: was bigger than target`}</p>);
-    }
+    return <Move key={idx} number={move.number} response={move.response}/>;
   });
 
   return moves.length ? (
