@@ -1,6 +1,8 @@
+'use strict';
+
 import NumberGame from '../src/NumberGame';
 
-describe('Game', () => {
+describe('Number Game', () => {
   it('should create Game instance correctly', () => {
     const game = new NumberGame(5);
     expect(game.finished).to.eql(false);
