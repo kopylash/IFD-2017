@@ -3,15 +3,15 @@ body {
   justify-content: center;
 }
 
-.move-correct {
+.green {
   color: green;
 }
 
-.move-incorrect {
+.red {
   color: red;
 }
 
-.move-list {
+.ordered-reverse {
   display: flex;
   flex-direction: column-reverse;
 }

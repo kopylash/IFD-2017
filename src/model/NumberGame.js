@@ -4,7 +4,7 @@ const WIN = 'WIN';
 const SMALL = 'SMALL';
 const BIG = 'BIG';
 
-class Game {
+class NumberGame {
   constructor(number) {
     this.targetNumber = number;
     this._finished = false;
@@ -35,4 +35,4 @@ class Game {
   }
 }
 
-export default Game;
+export default NumberGame;

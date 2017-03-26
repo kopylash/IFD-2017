@@ -1,11 +1,18 @@
 {
   "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
   "env": {
     "node": true,
     "mocha": true
   },
   "globals": {
-    "expect": false
+    "expect": false,
+    "chai": false,
+    "sinon": false
   },
   "plugins": [
     "import"
@@ -22,6 +29,7 @@
       120
     ],
     "require-jsdoc": "off",
-    "comma-dangle": "off"
+    "comma-dangle": "off",
+    "object-curly-spacing": "off"
   }
 }
