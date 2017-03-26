@@ -6,7 +6,7 @@ const MoveList = (props) => {
   const renderChars = (move) => {
     return move.word.split('').map((letter, idx) => {
       return <span className={move.matches.indexOf(idx) > -1 ? 'green' : 'red'} key={idx}>{letter}</span>;
-    })
+    });
   };
 
   const moves = props.moves.map((move, idx) => {
