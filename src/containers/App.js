@@ -35,7 +35,10 @@ class App extends Component {
         <h1>Game Lobby</h1>
         <button onClick={() => {this.createGame(WORD_GAME)}}>Create word game</button>
         <button onClick={() => {this.createGame(NUMBER_GAME)}}>Create number game</button>
-        {this.renderGames()}
+        <div className="ordered-reverse">
+          {this.renderGames()}
+        </div>
+
       </div>
     );
   }

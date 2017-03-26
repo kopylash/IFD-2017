@@ -11,7 +11,7 @@ body {
   color: red;
 }
 
-.move-list {
+.ordered-reverse {
   display: flex;
   flex-direction: column-reverse;
 }

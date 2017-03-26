@@ -18,7 +18,7 @@ const MoveList = (props) => {
   return moves.length ? (
     <div>
       <h4>Previous moves:</h4>
-      <div className="move-list">{moves}</div>
+      <div className="ordered-reverse">{moves}</div>
     </div>
   ) : null;
 };
