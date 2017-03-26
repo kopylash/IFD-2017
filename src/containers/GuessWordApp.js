@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import GuessWordForm from '../components/WordGame/GuessWordForm';
 import MoveList from '../components/WordGame/MoveList';
-import WordGame, { WORDS } from '../WordGame';
+import WordGame, { WORDS } from '../model/WordGame';
 
 class GuessWordApp extends Component {
 

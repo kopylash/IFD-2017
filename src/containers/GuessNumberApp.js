@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import GuessNumberForm from '../components/NumberGame/GuessNumberForm';
 import MoveList from '../components/NumberGame/MoveList';
-import NumberGame from '../NumberGame';
+import NumberGame from '../model/NumberGame';
 
 class GuessNumberApp extends Component {
   constructor(props) {

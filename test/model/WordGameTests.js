@@ -1,6 +1,6 @@
 'use strict';
 
-import WordGame from '../src/WordGame';
+import WordGame from '../../src/model/WordGame';
 
 describe('Word Game', () => {
   it('should create Game instance correctly', () => {

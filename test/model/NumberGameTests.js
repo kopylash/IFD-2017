@@ -1,6 +1,6 @@
 'use strict';
 
-import NumberGame from '../src/NumberGame';
+import NumberGame from '../../src/model/NumberGame';
 
 describe('Number Game', () => {
   it('should create Game instance correctly', () => {
