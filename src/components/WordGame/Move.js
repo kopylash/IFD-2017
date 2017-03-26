@@ -4,7 +4,7 @@ import React from 'react';
 
 const Move = (props) => {
   return (
-    <div key={props.key}>
+    <div>
       {
         props.word.split('').map((letter, idx) => {
           return <span className={props.matches.indexOf(idx) > -1 ? 'green' : 'red'} key={idx}>{letter}</span>;
