@@ -6,11 +6,11 @@ const MoveList = (props) => {
   const moves = props.moves.map((move, idx) => {
     switch (move.response) {
       case 'WIN':
-        return (<p className="move-correct" key={idx}>{`${move.number}: was correct`}</p>);
+        return (<p className="green" key={idx}>{`${move.number}: was correct`}</p>);
       case 'SMALL':
-        return (<p className="move-incorrect" key={idx}>{`${move.number}: was smaller than target`}</p>);
+        return (<p className="red" key={idx}>{`${move.number}: was smaller than target`}</p>);
       case 'BIG':
-        return (<p className="move-incorrect" key={idx}>{`${move.number}: was bigger than target`}</p>);
+        return (<p className="red" key={idx}>{`${move.number}: was bigger than target`}</p>);
     }
   });
 

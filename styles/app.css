@@ -3,11 +3,11 @@ body {
   justify-content: center;
 }
 
-.move-correct {
+.green {
   color: green;
 }
 
-.move-incorrect {
+.red {
   color: red;
 }
 

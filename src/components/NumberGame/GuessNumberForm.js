@@ -34,7 +34,7 @@ class GuessNumberForm extends Component {
     return this.props.finished ? (<p>You won!</p>) : (
       <div>
         <p>Guess a number from 0 to 9</p>
-        <input type='text'
+        <input type="text"
                placeholder="Guess the number"
                value={this.state.guessNumber}
                onChange={this.onChange.bind(this)}
