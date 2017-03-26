@@ -20,6 +20,5 @@ describe('MoveList', () => {
     expect(wrapper).to.have.exactly(2).descendants(Move);
     expect(wrapper).to.contain(<Move word="baker" matches={[0, 1]}/>);
     expect(wrapper).to.contain(<Move word="bazuka" matches={[0, 1, 2]}/>);
-
   });
 });

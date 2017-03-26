@@ -20,6 +20,5 @@ describe('MoveList', () => {
     expect(wrapper).to.have.exactly(2).descendants(Move);
     expect(wrapper).to.contain(<Move number={3} response="WIN"/>);
     expect(wrapper).to.contain(<Move number={5} response="SMALL"/>);
-
   });
 });

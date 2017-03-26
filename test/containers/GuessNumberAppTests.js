@@ -25,17 +25,20 @@ describe('GuessNumberApp', () => {
 
     app.find(GuessNumberForm).props().onSubmit(15);
 
-    expect(app).to.contain(<MoveList moves={[{number: 15, response:'BIG'}]}/>);
+    expect(app).to.contain(<MoveList moves={[{number: 15, response: 'BIG'}]}/>);
   });
 
-
+  /*
+   * maybe it is not the best test due to bruteforcing of win number
+   */
   it('changes state of finished when submitted from GuessNumberForm', () => {
     const app = shallow(<GuessNumberApp />);
     const form = app.find(GuessNumberForm);
 
-    app.setState({finished: true});
-    form.props().onSubmit(15);
+    for (let i = 0; i < 10; i++) {
+      form.props().onSubmit(i);
+    }
 
-    expect(app.state().finished).to.eql(false);
+    expect(app.state().finished).to.eql(true);
   });
 });
