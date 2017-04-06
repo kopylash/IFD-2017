@@ -5,14 +5,13 @@ import { connect } from 'react-redux';
 import WordGame from '../components/WordGame';
 import NumberGame from '../components/NumberGame';
 import { GameActions } from '../actions';
-
-const WORD_GAME = 'WORD_GAME';
+import { GAME_TYPES } from '../constants';
 
 const GamesContainer = (props) => {
   return (
     <div className="ordered-reverse">
       {props.games.map((game) => {
-        return game.type === WORD_GAME
+        return game.type === GAME_TYPES.WORD
           ? <WordGame key={game.id} game={game} onGuess={props.guessWord}/>
           : <NumberGame key={game.id} game={game} onGuess={props.guessNumber}/>;
       })}

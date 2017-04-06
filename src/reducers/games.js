@@ -2,10 +2,7 @@
 
 import { gamesInitialState } from './initialStates';
 import { GAME_ADDED, WORD_GUESSED, NUMBER_GUESSED } from '../actions/actionTypes';
-
-const WIN = 'WIN';
-const SMALL = 'SMALL';
-const BIG = 'BIG';
+import { NUMBER_GAME_RESPONSES } from '../constants';
 
 const games = (state = gamesInitialState, action) => {
   switch (action.type) {
@@ -42,9 +39,9 @@ const games = (state = gamesInitialState, action) => {
 
       if (number === updatedGame.target) {
         updatedGame.finished = true;
-        response = WIN;
+        response = NUMBER_GAME_RESPONSES.WIN;
       } else {
-        response = number < updatedGame.target ? SMALL : BIG;
+        response = number < updatedGame.target ? NUMBER_GAME_RESPONSES.SMALL : NUMBER_GAME_RESPONSES.BIG;
       }
 
       updatedGame.moves = [...updatedGame.moves, {number, response}];

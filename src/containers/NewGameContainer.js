@@ -3,15 +3,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { GameActions } from '../actions';
+import { GAME_TYPES } from '../constants';
 
-const WORD_GAME = 'WORD_GAME';
-const NUMBER_GAME = 'NUMBER_GAME';
 
 const NewGameContainer = (props) => {
   return (
     <div>
-      <button id="wordGameBtn" onClick={() => props.createGame(WORD_GAME)}>Create word game</button>
-      <button id="numberGameBtn" onClick={() => props.createGame(NUMBER_GAME)}>Create number game</button>
+      <button id="wordGameBtn" onClick={() => props.createGame(GAME_TYPES.WORD)}>Create word game</button>
+      <button id="numberGameBtn" onClick={() => props.createGame(GAME_TYPES.NUMBER)}>Create number game</button>
     </div>
   );
 };
