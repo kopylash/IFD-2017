@@ -1,29 +1,8 @@
 'use strict';
 
-import React from 'react';
 import { connect } from 'react-redux';
-import WordGame from '../components/WordGame';
-import NumberGame from '../components/NumberGame';
 import { GameActions } from '../actions';
-import { GAME_TYPES } from '../constants';
-
-const GamesContainer = (props) => {
-  return (
-    <div className="ordered-reverse">
-      {props.games.map((game) => {
-        return game.type === GAME_TYPES.WORD
-          ? <WordGame key={game.id} game={game} onGuess={props.guessWord}/>
-          : <NumberGame key={game.id} game={game} onGuess={props.guessNumber}/>;
-      })}
-    </div>
-  );
-};
-
-GamesContainer.propTypes = {
-  games: React.PropTypes.array,
-  guessWord: React.PropTypes.func,
-  guessNumber: React.PropTypes.func
-};
+import GameList from '../components/GameList';
 
 const mapStateToProps = (state) => ({
   games: state.games
@@ -34,4 +13,4 @@ const mapDispatchToProps = (dispatch) => ({
   guessWord: (id, word) => (dispatch(GameActions.guessWord(id, word)))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(GamesContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(GameList);
