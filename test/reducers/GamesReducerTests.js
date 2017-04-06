@@ -31,7 +31,7 @@ describe('Game creation', () => {
 describe('Word game', () => {
   it('should finish the game when the word is correct', () => {
     const previousState = [{
-      id: '1',
+      id: 1,
       type: GAME_TYPES.WORD,
       finished: false,
       target: 'redux',
@@ -41,7 +41,7 @@ describe('Word game', () => {
     const action = {
       type: WORD_GUESSED,
       payload: {
-        id: '1',
+        id: 1,
         word: 'redux'
       }
     };
@@ -53,7 +53,7 @@ describe('Word game', () => {
 
   it('should not finish the game on partial match', () => {
     const previousState = [{
-      id: '1',
+      id: 1,
       type: GAME_TYPES.WORD,
       finished: false,
       target: 'redux',
@@ -63,7 +63,7 @@ describe('Word game', () => {
     const action = {
       type: WORD_GUESSED,
       payload: {
-        id: '1',
+        id: 1,
         word: 'rexcx'
       }
     };
@@ -75,7 +75,7 @@ describe('Word game', () => {
 
   it('should return empty array when no matches found', () => {
     const previousState = [{
-      id: '1',
+      id: 1,
       type: GAME_TYPES.WORD,
       finished: false,
       target: 'redux',
@@ -85,7 +85,7 @@ describe('Word game', () => {
     const action = {
       type: WORD_GUESSED,
       payload: {
-        id: '1',
+        id: 1,
         word: 'basil'
       }
     };
@@ -99,7 +99,7 @@ describe('Word game', () => {
 
   it('should handle longer word', () => {
     const previousState = [{
-      id: '1',
+      id: 1,
       type: GAME_TYPES.WORD,
       finished: false,
       target: 'redux',
@@ -109,7 +109,7 @@ describe('Word game', () => {
     const action = {
       type: WORD_GUESSED,
       payload: {
-        id: '1',
+        id: 1,
         word: 'reflux'
       }
     };
@@ -122,7 +122,7 @@ describe('Word game', () => {
 
   it('should handle empty string', () => {
     const previousState = [{
-      id: '1',
+      id: 1,
       type: GAME_TYPES.WORD,
       finished: false,
       target: 'redux',
@@ -132,7 +132,7 @@ describe('Word game', () => {
     const action = {
       type: WORD_GUESSED,
       payload: {
-        id: '1',
+        id: 1,
         word: ''
       }
     };
@@ -144,7 +144,7 @@ describe('Word game', () => {
 
   it('should return 3 matches', () => {
     const previousState = [{
-      id: '1',
+      id: 1,
       type: GAME_TYPES.WORD,
       finished: false,
       target: 'redux',
@@ -154,7 +154,7 @@ describe('Word game', () => {
     const action = {
       type: WORD_GUESSED,
       payload: {
-        id: '1',
+        id: 1,
         word: 'ardux'
       }
     };
@@ -165,7 +165,7 @@ describe('Word game', () => {
 
   it('should record moves on each guess', () => {
     const previousState = [{
-      id: '1',
+      id: 1,
       type: GAME_TYPES.WORD,
       finished: false,
       target: 'redux',
@@ -175,7 +175,7 @@ describe('Word game', () => {
     const action = {
       type: WORD_GUESSED,
       payload: {
-        id: '1',
+        id: 1,
         word: 'ardux'
       }
     };
@@ -189,7 +189,7 @@ describe('Word game', () => {
 describe('Number game', () => {
   it('should return WIN when guess is correct', () => {
     const previousState = [{
-      id: '1',
+      id: 1,
       type: GAME_TYPES.NUMBER,
       finished: false,
       target: 5,
@@ -199,7 +199,7 @@ describe('Number game', () => {
     const action = {
       type: NUMBER_GUESSED,
       payload: {
-        id: '1',
+        id: 1,
         number: 5
       }
     };
@@ -212,7 +212,7 @@ describe('Number game', () => {
 
   it('should return SMALL when guess is less than target number', () => {
     const previousState = [{
-      id: '1',
+      id: 1,
       type: GAME_TYPES.NUMBER,
       finished: false,
       target: 5,
@@ -222,7 +222,7 @@ describe('Number game', () => {
     const action = {
       type: NUMBER_GUESSED,
       payload: {
-        id: '1',
+        id: 1,
         number: 3
       }
     };
@@ -235,7 +235,7 @@ describe('Number game', () => {
 
   it('should return BIG when guess is more than target number', () => {
     const previousState = [{
-      id: '1',
+      id: 1,
       type: GAME_TYPES.NUMBER,
       finished: false,
       target: 5,
@@ -245,7 +245,7 @@ describe('Number game', () => {
     const action = {
       type: NUMBER_GUESSED,
       payload: {
-        id: '1',
+        id: 1,
         number: 8
       }
     };
@@ -258,7 +258,7 @@ describe('Number game', () => {
 
   it('should add move on guess', () => {
     const previousState = [{
-      id: '1',
+      id: 1,
       type: GAME_TYPES.NUMBER,
       finished: false,
       target: 5,
@@ -268,7 +268,7 @@ describe('Number game', () => {
     const action = {
       type: NUMBER_GUESSED,
       payload: {
-        id: '1',
+        id: 1,
         number: 3
       }
     };
