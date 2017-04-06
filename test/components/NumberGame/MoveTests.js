@@ -18,3 +18,4 @@ describe('Move', () => {
       .to.contain(<p className="red">3: was smaller than target</p>);
   });
 });
+
