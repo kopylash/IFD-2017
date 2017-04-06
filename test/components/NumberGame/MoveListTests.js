@@ -22,3 +22,4 @@ describe('MoveList', () => {
     expect(wrapper).to.contain(<Move number={5} response="SMALL"/>);
   });
 });
+

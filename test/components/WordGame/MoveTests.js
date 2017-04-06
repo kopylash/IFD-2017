@@ -18,3 +18,4 @@ describe('Move', () => {
       .to.contain(<span className="red">b</span>);
   });
 });
+

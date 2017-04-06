@@ -22,3 +22,4 @@ describe('MoveList', () => {
     expect(wrapper).to.contain(<Move word="bazuka" matches={[0, 1, 2]}/>);
   });
 });
+

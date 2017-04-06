@@ -1,53 +1,17 @@
 'use strict';
 
-import React, { Component } from 'react';
-import GuessNumberApp from './GuessNumberApp';
-import GuessWordApp from './GuessWordApp';
+import React from 'react';
+import NewGameContainer from './NewGameContainer';
+import GamesContainer from './GamesContainer';
 
-const WORD_GAME = 'WORD_GAME';
-const NUMBER_GAME = 'NUMBER_GAME';
-
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      games: []
-    };
-  }
-
-  createGame(type) {
-    this.setState({
-      games: [...this.state.games, {type}]
-    });
-  }
-
-  renderGames() {
-    return this.state.games.map((game, idx)=> {
-      return game.type === WORD_GAME
-        ? <GuessWordApp key={idx}/>
-        : <GuessNumberApp key={idx}/>;
-    });
-  }
-
-  render() {
+const App = () => {
     return (
       <div>
         <h1>Game Lobby</h1>
-        <button id="wordGameBtn" onClick={() => {
-          this.createGame(WORD_GAME);
-        }}>Create word game
-        </button>
-        <button id="numberGameBtn" onClick={() => {
-          this.createGame(NUMBER_GAME);
-        }}>Create number game
-        </button>
-        <div className="ordered-reverse">
-          {this.renderGames()}
-        </div>
-
+        <NewGameContainer />
+        <GamesContainer />
       </div>
     );
-  }
-}
+};
 
 export default App;

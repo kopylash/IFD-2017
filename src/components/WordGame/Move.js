@@ -20,3 +20,4 @@ Move.propTypes = {
 };
 
 export default Move;
+

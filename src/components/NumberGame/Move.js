@@ -1,14 +1,15 @@
 'use strict';
 
 import React from 'react';
+import { NUMBER_GAME_RESPONSES } from '../../constants';
 
 const Move = (props) => {
   switch (props.response) {
-    case 'WIN':
+    case NUMBER_GAME_RESPONSES.WIN:
       return (<p className="green">{`${props.number}: was correct`}</p>);
-    case 'SMALL':
+    case NUMBER_GAME_RESPONSES.SMALL:
       return (<p className="red">{`${props.number}: was smaller than target`}</p>);
-    case 'BIG':
+    case NUMBER_GAME_RESPONSES.BIG:
       return (<p className="red">{`${props.number}: was bigger than target`}</p>);
   }
 };
