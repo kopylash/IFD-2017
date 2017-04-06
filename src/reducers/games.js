@@ -12,17 +12,11 @@ const games = (state = gamesInitialState, action) => {
     case WORD_GUESSED: {
       const word = action.payload.word;
       const index = state.findIndex((g) => (g.id === action.payload.id));
-      const updatedGame = {...state[index]};
-
-      let matches = [];
-      const n = updatedGame.target.length >= word.length ? updatedGame.target.length : word.length;
-      for (let i = 0; i < n; i++) {
-        if (word[i] === updatedGame.target[i]) {
-          matches.push(i);
-        }
-      }
-      updatedGame.moves = [...updatedGame.moves, {word, matches}];
-      updatedGame.finished = updatedGame.target === word;
+      const updatedGame = {
+        ...state[index],
+        moves: [...state[index].moves, {word, matches: getWordGameMatches(state[index].target, word)}],
+        finished: state[index].target === word
+      };
 
       return [
         ...state.slice(0, index),
@@ -33,18 +27,11 @@ const games = (state = gamesInitialState, action) => {
     case NUMBER_GUESSED: {
       const number = action.payload.number;
       const index = state.findIndex((g) => (g.id === action.payload.id));
-      const updatedGame = {...state[index]};
-
-      let response;
-
-      if (number === updatedGame.target) {
-        updatedGame.finished = true;
-        response = NUMBER_GAME_RESPONSES.WIN;
-      } else {
-        response = number < updatedGame.target ? NUMBER_GAME_RESPONSES.SMALL : NUMBER_GAME_RESPONSES.BIG;
-      }
-
-      updatedGame.moves = [...updatedGame.moves, {number, response}];
+      const updatedGame = {
+        ...state[index],
+        moves: [...state[index].moves, {number, response: getNumberGameResponse(state[index].target, number)}],
+        finished: state[index].target === number
+      };
 
       return [
         ...state.slice(0, index),
@@ -58,3 +45,25 @@ const games = (state = gamesInitialState, action) => {
 };
 
 export default games;
+
+const getWordGameMatches = (target, word) => {
+  let matches = [];
+  const n = target.length >= word.length ? target.length : word.length;
+  for (let i = 0; i < n; i++) {
+    if (word[i] === target[i]) {
+      matches.push(i);
+    }
+  }
+  return matches;
+};
+
+const getNumberGameResponse = (target, number) => {
+  let response;
+
+  if (number === target) {
+    response = NUMBER_GAME_RESPONSES.WIN;
+  } else {
+    response = number < target ? NUMBER_GAME_RESPONSES.SMALL : NUMBER_GAME_RESPONSES.BIG;
+  }
+  return response;
+};
