@@ -24,3 +24,4 @@ MoveList.propTypes = {
 };
 
 export default MoveList;
+
