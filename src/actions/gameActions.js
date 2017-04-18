@@ -1,41 +1,31 @@
 'use strict';
 
-import { GAME_ADDED, WORD_GUESSED, NUMBER_GUESSED } from './actionTypes';
-import {WORDS, GAME_TYPES} from '../constants';
+import {
+  GAME_CREATION_REQUEST,
+  GAME_CREATION_FAILURE,
+  GAME_CREATION_SUCCESS,
+  GUESS_REQUEST,
+  GUESS_FAILURE,
+  GUESS_SUCCESS
+} from './actionTypes';
 
-let id = 0;
-
-const createGame = (type) => ({
-  id: id++,
-  type: type,
-  finished: false,
-  target: type === GAME_TYPES.WORD ? WORDS[Math.floor(Math.random() * WORDS.length)] : Math.floor(Math.random() * 10),
-  moves: []
-});
+const createPayloadForwardingAction = (type) => (payload) => ({type: type, payload: payload});
 
 export const addGame = (type) => {
   return {
-    type: GAME_ADDED,
-    payload: createGame(type)
+    type: GAME_CREATION_REQUEST,
+    payload: {type}
   };
 };
 
-export const guessWord = (id, word) => {
+export const guess = (gameId, guess) => {
   return {
-    type: WORD_GUESSED,
-    payload: {
-      id,
-      word
-    }
+    type: GUESS_REQUEST,
+    payload: {gameId, guess}
   };
 };
 
-export const guessNumber = (id, number) => {
-  return {
-    type: NUMBER_GUESSED,
-    payload: {
-      id,
-      number
-    }
-  };
-};
+export const gameCreationSucceeded = createPayloadForwardingAction(GAME_CREATION_SUCCESS);
+export const gameCreationFailed = createPayloadForwardingAction(GAME_CREATION_FAILURE);
+export const guessSucceeded = createPayloadForwardingAction(GUESS_SUCCESS);
+export const guessFailed = createPayloadForwardingAction(GUESS_FAILURE);

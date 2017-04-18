@@ -5,7 +5,7 @@ import Move from './Move';
 
 const MoveList = (props) => {
   const moves = props.moves.map((move, idx) => {
-    return <Move key={idx} number={move.number} response={move.response}/>;
+    return <Move key={idx} guess={move.guess} comparedToAnswer={move.comparedToAnswer}/>;
   });
 
   return moves.length ? (
@@ -18,10 +18,9 @@ const MoveList = (props) => {
 
 MoveList.propTypes = {
   moves: React.PropTypes.arrayOf(React.PropTypes.shape({
-    number: React.PropTypes.number,
-    response: React.PropTypes.string
+    guess: React.PropTypes.number,
+    comparedToAnswer: React.PropTypes.string
   })).isRequired
 };
 
 export default MoveList;
-

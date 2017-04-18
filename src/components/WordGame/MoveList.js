@@ -6,7 +6,7 @@ import Move from './Move';
 const MoveList = (props) => {
   const moves = props.moves.map((move, idx) => {
     return (
-      <Move key={idx} word={move.word} matches={move.matches}/>
+      <Move key={idx} guess={move.guess} letterMatches={move.letterMatches} correct={move.correct}/>
     );
   });
 
@@ -20,8 +20,9 @@ const MoveList = (props) => {
 
 MoveList.propTypes = {
   moves: React.PropTypes.arrayOf(React.PropTypes.shape({
-    word: React.PropTypes.string,
-    matches: React.PropTypes.arrayOf(React.PropTypes.number)
+    guess: React.PropTypes.string,
+    letterMatches: React.PropTypes.arrayOf(React.PropTypes.bool),
+    correct: React.PropTypes.bool
   })).isRequired
 };
 

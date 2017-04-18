@@ -31,12 +31,15 @@
     "test": "npm run lint && npm run lint-test && mocha",
     "test-watch": "mocha --watch",
     "lint": "eslint src/",
-    "lint-test": "eslint test/ -c test/.eslintrc"
+    "lint-test": "eslint test/ -c test/.eslintrc",
+    "start-server": "game_lobby_server --delay=1000 --failure-percentage=30"
   },
   "dependencies": {
+    "game_lobby_server": "^1.0.7",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.3",
-    "redux": "^3.6.0"
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.2.0"
   }
 }

@@ -6,8 +6,8 @@ const Move = (props) => {
   return (
     <div>
       {
-        props.word.split('').map((letter, idx) => {
-          return <span className={props.matches.indexOf(idx) > -1 ? 'green' : 'red'} key={idx}>{letter}</span>;
+        props.guess.split('').map((letter, idx) => {
+          return <span className={props.letterMatches[idx] ? 'green' : 'red'} key={idx}>{letter}</span>;
         })
       }
     </div>
@@ -15,8 +15,9 @@ const Move = (props) => {
 };
 
 Move.propTypes = {
-  word: React.PropTypes.string.isRequired,
-  matches: React.PropTypes.arrayOf(React.PropTypes.number).isRequired
+  correct: React.PropTypes.bool.isRequired,
+  guess: React.PropTypes.string.isRequired,
+  letterMatches: React.PropTypes.arrayOf(React.PropTypes.bool).isRequired
 };
 
 export default Move;

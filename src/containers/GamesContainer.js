@@ -5,12 +5,11 @@ import { GameActions } from '../actions';
 import GameList from '../components/GameList';
 
 const mapStateToProps = (state) => ({
-  games: state.games
+  games: state.games.list
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  guessNumber: (id, number) => (dispatch(GameActions.guessNumber(id, number))),
-  guessWord: (id, word) => (dispatch(GameActions.guessWord(id, word)))
+  guess: (id, guess) => (dispatch(GameActions.guess(id, guess))),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameList);

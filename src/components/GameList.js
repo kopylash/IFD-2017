@@ -10,8 +10,8 @@ const GameList = (props) => {
     <div className="ordered-reverse">
       {props.games.map((game) => {
         return game.type === GAME_TYPES.WORD
-          ? <WordGame key={game.id} game={game} onGuess={props.guessWord}/>
-          : <NumberGame key={game.id} game={game} onGuess={props.guessNumber}/>;
+          ? <WordGame key={game.id} game={game} onGuess={props.guess}/>
+          : <NumberGame key={game.id} game={game} onGuess={props.guess}/>;
       })}
     </div>
   );
@@ -19,8 +19,7 @@ const GameList = (props) => {
 
 GameList.propTypes = {
   games: React.PropTypes.array,
-  guessWord: React.PropTypes.func,
-  guessNumber: React.PropTypes.func
+  guess: React.PropTypes.func
 };
 
 export default GameList;
