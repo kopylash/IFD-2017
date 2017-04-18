@@ -1,11 +1,14 @@
 'use strict';
 
-export const WORDS = ['paper', 'grill', 'basil', 'hinge', 'ruler'];
-
-export const GAME_TYPES = {WORD: 'WORD', NUMBER: 'NUMBER'};
+export const GAME_TYPES = {WORD: 'guess_word', NUMBER: 'guess_number'};
 
 export const NUMBER_GAME_RESPONSES = {
-  WIN: 'WIN',
-  SMALL: 'SMALL',
-  BIG: 'BIG'
+  WIN: 'EQ',
+  SMALL: 'LT',
+  BIG: 'GT'
+};
+
+export const GAME_STATUSES = {
+  WAITING_FOR_MOVE: 'waiting_for_move',
+  FINISHED: 'finished'
 };

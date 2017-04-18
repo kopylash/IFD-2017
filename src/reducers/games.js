@@ -1,43 +1,94 @@
 'use strict';
 
-import { gamesInitialState } from './initialStates';
-import { GAME_ADDED, WORD_GUESSED, NUMBER_GUESSED } from '../actions/actionTypes';
-import { NUMBER_GAME_RESPONSES } from '../constants';
+import {
+  GAME_CREATION_REQUEST,
+  GAME_CREATION_FAILURE,
+  GAME_CREATION_SUCCESS,
+  GUESS_REQUEST,
+  GUESS_FAILURE,
+  GUESS_SUCCESS
+} from '../actions/actionTypes';
 
-const games = (state = gamesInitialState, action) => {
+const initialState = {
+  fetchState: {
+    inFlight: false,
+    error: null
+  },
+  list: []
+};
+
+const games = (state = initialState, action) => {
   switch (action.type) {
-    case GAME_ADDED: {
-      return [...state, action.payload];
+    case GAME_CREATION_REQUEST: {
+      return {...state, fetchState: {inFlight: true}};
     }
-    case WORD_GUESSED: {
-      const word = action.payload.word;
-      const index = state.findIndex((g) => (g.id === action.payload.id));
+    case GAME_CREATION_SUCCESS: {
+      return {
+        ...state,
+        fetchState: {inFlight: false},
+        list: [...state.list, {
+          ...action.payload,
+          moves: [],
+          fetchState: {inFlight: false}
+        }]
+      };
+    }
+    case GAME_CREATION_FAILURE: {
+      return {
+        ...state,
+        fetchState: {inFlight: false, ...action.payload}
+      };
+    }
+    case GUESS_REQUEST: {
+      const index = state.list.findIndex((g) => (g.id === action.payload.gameId));
       const updatedGame = {
-        ...state[index],
-        moves: [...state[index].moves, {word, matches: getWordGameMatches(state[index].target, word)}],
-        finished: state[index].target === word
+        ...state.list[index],
+        fetchState: {inFlight: true}
       };
 
-      return [
-        ...state.slice(0, index),
-        updatedGame,
-        ...state.slice(index + 1)
-      ];
+      return {
+        ...state,
+        list: [
+          ...state.list.slice(0, index),
+          updatedGame,
+          ...state.list.slice(index + 1)
+        ]
+      };
     }
-    case NUMBER_GUESSED: {
-      const number = action.payload.number;
-      const index = state.findIndex((g) => (g.id === action.payload.id));
+    case GUESS_SUCCESS: {
+      const {game, move} = action.payload;
+      const index = state.list.findIndex((g) => (g.id === game.id));
       const updatedGame = {
-        ...state[index],
-        moves: [...state[index].moves, {number, response: getNumberGameResponse(state[index].target, number)}],
-        finished: state[index].target === number
+        ...game,
+        moves: [...state.list[index].moves, move],
+        fetchState: {inFlight: false}
       };
 
-      return [
-        ...state.slice(0, index),
-        updatedGame,
-        ...state.slice(index + 1)
-      ];
+      return {
+        ...state,
+        list: [
+          ...state.list.slice(0, index),
+          updatedGame,
+          ...state.list.slice(index + 1)
+        ]
+      };
+    }
+    case GUESS_FAILURE: {
+      const {gameId, error} = action.payload;
+      const index = state.list.findIndex((g) => (g.id === gameId));
+      const updatedGame = {
+        ...state.list[index],
+        fetchState: {inFlight: false, ...error}
+      };
+
+      return {
+        ...state,
+        list: [
+          ...state.list.slice(0, index),
+          updatedGame,
+          ...state.list.slice(index + 1)
+        ]
+      };
     }
     default:
       return state;
@@ -45,25 +96,3 @@ const games = (state = gamesInitialState, action) => {
 };
 
 export default games;
-
-const getWordGameMatches = (target, word) => {
-  let matches = [];
-  const n = target.length >= word.length ? target.length : word.length;
-  for (let i = 0; i < n; i++) {
-    if (word[i] === target[i]) {
-      matches.push(i);
-    }
-  }
-  return matches;
-};
-
-const getNumberGameResponse = (target, number) => {
-  let response;
-
-  if (number === target) {
-    response = NUMBER_GAME_RESPONSES.WIN;
-  } else {
-    response = number < target ? NUMBER_GAME_RESPONSES.SMALL : NUMBER_GAME_RESPONSES.BIG;
-  }
-  return response;
-};
