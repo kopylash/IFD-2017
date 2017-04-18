@@ -11,15 +11,14 @@ describe('MoveList', () => {
 
   it('renders Move for each move', () => {
     const moves = [
-      {word: 'baker', matches: [0, 1]},
-      {word: 'bazuka', matches: [0, 1, 2]}
+      {guess: 'baker', letterMatches: [true, true, false, false, false], correct: false},
+      {guess: 'bazuka', letterMatches: [true, true, true, false, false], correct: false}
     ];
 
     const wrapper = shallow(<MoveList moves={moves}/>).find('.ordered-reverse');
 
     expect(wrapper).to.have.exactly(2).descendants(Move);
-    expect(wrapper).to.contain(<Move word="baker" matches={[0, 1]}/>);
-    expect(wrapper).to.contain(<Move word="bazuka" matches={[0, 1, 2]}/>);
+    expect(wrapper).to.contain(<Move guess="baker" letterMatches={[true, true, false, false, false]} correct={false}/>);
+    expect(wrapper).to.contain(<Move guess="bazuka" letterMatches={[true, true, true, false, false]} correct={false}/>);
   });
 });
-

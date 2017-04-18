@@ -1,281 +1,240 @@
 'use strict';
 
 import reducer from '../../src/reducers/games';
-import { GAME_ADDED, WORD_GUESSED, NUMBER_GUESSED } from '../../src/actions/actionTypes';
-import { GAME_TYPES, NUMBER_GAME_RESPONSES } from '../../src/constants';
+import {
+  GAME_CREATION_REQUEST,
+  GAME_CREATION_FAILURE,
+  GAME_CREATION_SUCCESS,
+  GUESS_REQUEST,
+  GUESS_FAILURE,
+  GUESS_SUCCESS
+} from '../../src/actions/actionTypes';
+import { GAME_TYPES, NUMBER_GAME_RESPONSES, GAME_STATUSES } from '../../src/constants';
 
 describe('Game creation', () => {
-  it('has no games initially', () => {
-    expect(reducer(undefined, {})).to.eql([]);
+  it('has the right initial state', () => {
+    expect(reducer(undefined, {})).to.eql({
+      fetchState: {
+        inFlight: false,
+        error: null
+      },
+      list: []
+    });
   });
 
-  it('adds game', () => {
-    const newGame = {
-      id: 1,
-      type: GAME_TYPES.NUMBER,
-      finished: false
-    };
-
+  it('sets fetch state to inFlight upon game creation', () => {
     const newState = reducer(undefined, {
-      type: GAME_ADDED,
-      payload: newGame
+      type: GAME_CREATION_REQUEST,
+      payload: {
+        type: GAME_TYPES.NUMBER
+      }
     });
 
-    expect(newState.length).to.eql(1);
-    expect(newState[0].id).to.eql(newGame.id);
-    expect(newState[0].type).to.eql(newGame.type);
-    expect(newState[0].finished).to.eql(newGame.finished);
+    expect(newState.fetchState.inFlight).to.be.true;
+  });
+
+  it('adds a game to the list when created successfully', () => {
+    const previousState = {
+      list: [],
+      fetchState: {inFlight: true}
+    };
+    const action = {
+      type: GAME_CREATION_SUCCESS,
+      payload: {
+        id: '1',
+        type: GAME_TYPES.NUMBER,
+        status: GAME_STATUSES.WAITING_FOR_MOVE
+      }
+    };
+    const newState = reducer(previousState, action);
+
+    expect(newState.fetchState.inFlight).to.be.false;
+
+    expect(newState.list).to.have.lengthOf(1);
+    expect(newState.list[0].id).to.eql(action.payload.id);
+    expect(newState.list[0].type).to.eql(action.payload.type);
+    expect(newState.list[0].status).to.eql(action.payload.status);
+    expect(newState.list[0].fetchState).to.eql({inFlight: false});
+    expect(newState.list[0].moves).to.have.lengthOf(0);
+  });
+
+  it('removes inFlight state when game creation failed', () => {
+    const action = {
+      type: GAME_CREATION_FAILURE,
+      payload: {error: 'error'}
+    };
+    const newState = reducer(undefined, action);
+
+    expect(newState.fetchState.inFlight).to.be.false;
+  });
+
+  it('adds error to fetchState when game creation failed', () => {
+    const action = {
+      type: GAME_CREATION_FAILURE,
+      payload: {error: 'error'}
+    };
+    const newState = reducer(undefined, action);
+
+    expect(newState.fetchState.error).to.eql('error');
   });
 });
 
-describe('Word game', () => {
-  it('should finish the game when the word is correct', () => {
-    const previousState = [{
-      id: 1,
-      type: GAME_TYPES.WORD,
-      finished: false,
-      target: 'redux',
-      moves: []
-    }];
+describe('Game guess', () => {
+  it('should set game\'s fetchState to inFlight when guess is made', () => {
+    const gameId = '1';
+    const guess = 3;
+
+    const previousState = {
+      list: [{
+        id: gameId,
+        type: GAME_TYPES.NUMBER,
+        status: GAME_STATUSES.WAITING_FOR_MOVE,
+        moves: [],
+        fetchState: {inFlight: false}
+      }]
+    };
 
     const action = {
-      type: WORD_GUESSED,
+      type: GUESS_REQUEST,
       payload: {
-        id: 1,
-        word: 'redux'
+        gameId: guess
       }
     };
+
     const newState = reducer(previousState, action);
 
-    expect(newState.length).to.eql(1);
-    expect(newState[0].finished).to.eql(true);
+    expect(newState.list[0].fetchState.inFlight).to.be.true;
   });
 
-  it('should not finish the game on partial match', () => {
-    const previousState = [{
-      id: 1,
-      type: GAME_TYPES.WORD,
-      finished: false,
-      target: 'redux',
-      moves: []
-    }];
+  it('should set game\'s fetchState to not inFlight when guess succeeded', () => {
+    const gameId = '1';
+    const guess = 3;
+
+    const previousState = {
+      list: [{
+        id: gameId,
+        type: GAME_TYPES.NUMBER,
+        status: GAME_STATUSES.WAITING_FOR_MOVE,
+        moves: [],
+        fetchState: {inFlight: false}
+      }]
+    };
 
     const action = {
-      type: WORD_GUESSED,
+      type: GUESS_SUCCESS,
       payload: {
-        id: 1,
-        word: 'rexcx'
+        game: {
+          id: gameId,
+          type: GAME_TYPES.NUMBER,
+          status: GAME_STATUSES.WAITING_FOR_MOVE
+        },
+        move: {
+          comparedToAnswer: NUMBER_GAME_RESPONSES.SMALL,
+          guess
+        }
       }
     };
+
     const newState = reducer(previousState, action);
 
-    expect(newState.length).to.eql(1);
-    expect(newState[0].finished).to.eql(false);
+    expect(newState.list[0].fetchState.inFlight).to.be.false;
   });
 
-  it('should return empty array when no matches found', () => {
-    const previousState = [{
-      id: 1,
-      type: GAME_TYPES.WORD,
-      finished: false,
-      target: 'redux',
-      moves: []
-    }];
+  it('should add move to game when guess succeeded', () => {
+    const gameId = '1';
+    const guess = 3;
+
+    const previousState = {
+      list: [{
+        id: gameId,
+        type: GAME_TYPES.NUMBER,
+        status: GAME_STATUSES.WAITING_FOR_MOVE,
+        moves: [],
+        fetchState: {inFlight: false}
+      }]
+    };
 
     const action = {
-      type: WORD_GUESSED,
+      type: GUESS_SUCCESS,
       payload: {
-        id: 1,
-        word: 'basil'
+        game: {
+          id: gameId,
+          type: GAME_TYPES.NUMBER,
+          status: GAME_STATUSES.WAITING_FOR_MOVE
+        },
+        move: {
+          comparedToAnswer: NUMBER_GAME_RESPONSES.SMALL,
+          guess
+        }
       }
     };
+
     const newState = reducer(previousState, action);
 
-    expect(newState.length).to.eql(1);
-    expect(newState[0].moves.length).to.eql(1);
-    expect(newState[0].moves[0].word).to.eql('basil');
-    expect(newState[0].moves[0].matches.length).to.eql(0);
+    expect(newState.list[0].moves).to.have.lengthOf(1);
+    expect(newState.list[0].moves[0]).to.eql({
+      comparedToAnswer: NUMBER_GAME_RESPONSES.SMALL,
+      guess
+    });
   });
 
-  it('should handle longer word', () => {
-    const previousState = [{
-      id: 1,
-      type: GAME_TYPES.WORD,
-      finished: false,
-      target: 'redux',
-      moves: []
-    }];
+  it('should set game\'s fetchState to not inFlight when guess failed', () => {
+    const gameId = '1';
+    const guess = 3;
+
+    const previousState = {
+      list: [{
+        id: gameId,
+        type: GAME_TYPES.NUMBER,
+        status: GAME_STATUSES.WAITING_FOR_MOVE,
+        moves: [{
+          comparedToAnswer: NUMBER_GAME_RESPONSES.SMALL,
+          guess
+        }],
+        fetchState: {inFlight: true}
+      }]
+    };
 
     const action = {
-      type: WORD_GUESSED,
+      type: GUESS_FAILURE,
       payload: {
-        id: 1,
-        word: 'reflux'
+        gameId,
+        error: 'error'
       }
     };
+
     const newState = reducer(previousState, action);
 
-    expect(newState.length).to.eql(1);
-    expect(newState[0].moves[0].matches.length).to.eql(2);
-    expect(newState[0].moves[0].matches).to.include.members([0, 1]);
+    expect(newState.list[0].fetchState.inFlight).to.be.false;
   });
 
-  it('should handle empty string', () => {
-    const previousState = [{
-      id: 1,
-      type: GAME_TYPES.WORD,
-      finished: false,
-      target: 'redux',
-      moves: []
-    }];
+  it('should add error to game\'s fetchState when guess failed', () => {
+    const gameId = '1';
+    const guess = 3;
+
+    const previousState = {
+      list: [{
+        id: gameId,
+        type: GAME_TYPES.NUMBER,
+        status: GAME_STATUSES.WAITING_FOR_MOVE,
+        moves: [{
+          comparedToAnswer: NUMBER_GAME_RESPONSES.SMALL,
+          guess
+        }],
+        fetchState: {inFlight: true}
+      }]
+    };
 
     const action = {
-      type: WORD_GUESSED,
+      type: GUESS_FAILURE,
       payload: {
-        id: 1,
-        word: ''
+        gameId,
+        error: {error: 'error'}
       }
     };
+
     const newState = reducer(previousState, action);
 
-    expect(newState.length).to.eql(1);
-    expect(newState[0].moves[0].matches.length).to.eql(0);
-  });
-
-  it('should return 3 matches', () => {
-    const previousState = [{
-      id: 1,
-      type: GAME_TYPES.WORD,
-      finished: false,
-      target: 'redux',
-      moves: []
-    }];
-
-    const action = {
-      type: WORD_GUESSED,
-      payload: {
-        id: 1,
-        word: 'ardux'
-      }
-    };
-    const newState = reducer(previousState, action);
-
-    expect(newState[0].moves[0].matches.length).to.eql(3);
-  });
-
-  it('should record moves on each guess', () => {
-    const previousState = [{
-      id: 1,
-      type: GAME_TYPES.WORD,
-      finished: false,
-      target: 'redux',
-      moves: []
-    }];
-
-    const action = {
-      type: WORD_GUESSED,
-      payload: {
-        id: 1,
-        word: 'ardux'
-      }
-    };
-    const middleState = reducer(previousState, action);
-    const newState = reducer(middleState, action);
-
-    expect(newState[0].moves.length).to.eql(2);
-  });
-});
-
-describe('Number game', () => {
-  it('should return WIN when guess is correct', () => {
-    const previousState = [{
-      id: 1,
-      type: GAME_TYPES.NUMBER,
-      finished: false,
-      target: 5,
-      moves: []
-    }];
-
-    const action = {
-      type: NUMBER_GUESSED,
-      payload: {
-        id: 1,
-        number: 5
-      }
-    };
-    const newState = reducer(previousState, action);
-
-    expect(newState.length).to.eql(1);
-    expect(newState[0].moves[0].number).to.eql(5);
-    expect(newState[0].moves[0].response).to.eql(NUMBER_GAME_RESPONSES.WIN);
-  });
-
-  it('should return SMALL when guess is less than target number', () => {
-    const previousState = [{
-      id: 1,
-      type: GAME_TYPES.NUMBER,
-      finished: false,
-      target: 5,
-      moves: []
-    }];
-
-    const action = {
-      type: NUMBER_GUESSED,
-      payload: {
-        id: 1,
-        number: 3
-      }
-    };
-    const newState = reducer(previousState, action);
-
-    expect(newState.length).to.eql(1);
-    expect(newState[0].moves[0].number).to.eql(3);
-    expect(newState[0].moves[0].response).to.eql(NUMBER_GAME_RESPONSES.SMALL);
-  });
-
-  it('should return BIG when guess is more than target number', () => {
-    const previousState = [{
-      id: 1,
-      type: GAME_TYPES.NUMBER,
-      finished: false,
-      target: 5,
-      moves: []
-    }];
-
-    const action = {
-      type: NUMBER_GUESSED,
-      payload: {
-        id: 1,
-        number: 8
-      }
-    };
-    const newState = reducer(previousState, action);
-
-    expect(newState.length).to.eql(1);
-    expect(newState[0].moves[0].number).to.eql(8);
-    expect(newState[0].moves[0].response).to.eql(NUMBER_GAME_RESPONSES.BIG);
-  });
-
-  it('should add move on guess', () => {
-    const previousState = [{
-      id: 1,
-      type: GAME_TYPES.NUMBER,
-      finished: false,
-      target: 5,
-      moves: []
-    }];
-
-    const action = {
-      type: NUMBER_GUESSED,
-      payload: {
-        id: 1,
-        number: 3
-      }
-    };
-    const newState = reducer(previousState, action);
-
-    expect(newState.length).to.eql(1);
-    expect(newState[0].moves.length).to.eql(1);
-    expect(newState[0].moves[0].number).to.eql(3);
+    expect(newState.list[0].fetchState.error).to.eql(action.payload.error.error);
   });
 });
