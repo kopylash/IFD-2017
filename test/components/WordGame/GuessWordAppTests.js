@@ -3,10 +3,10 @@ import { shallow } from 'enzyme';
 
 import { GAME_TYPES, GAME_STATUSES } from '../../../src/constants';
 
-import GuessNumberApp from '../../../src/components/NumberGame';
-import MoveList from '../../../src/components/NumberGame/MoveList';
+import GuessWordApp from '../../../src/components/WordGame';
+import MoveList from '../../../src/components/WordGame/MoveList';
 
-describe('GuessNumberApp component', () => {
+describe('GuessWordApp component', () => {
   it('does not render anything except message about move processed', () => {
     const game = {
       id: '1',
@@ -15,7 +15,7 @@ describe('GuessNumberApp component', () => {
       }
     };
 
-    const app = shallow(<GuessNumberApp onGuess={sinon.stub()} game={game}/>);
+    const app = shallow(<GuessWordApp onGuess={sinon.stub()} game={game}/>);
 
     expect(app).to.not.contain(<MoveList moves={[]}/>);
     expect(app).to.contain('Wait a moment. Your move is processed...');
@@ -26,14 +26,14 @@ describe('GuessNumberApp component', () => {
       id: '1',
       status: GAME_STATUSES.WAITING_FOR_MOVE,
       moves: [],
-      type: GAME_TYPES.NUMBER,
+      type: GAME_TYPES.WORD,
       fetchState: {
         inFlight: false,
         error: 'oops, error'
       }
     };
 
-    const app = shallow(<GuessNumberApp onGuess={sinon.stub()} game={game}/>);
+    const app = shallow(<GuessWordApp onGuess={sinon.stub()} game={game}/>);
 
     expect(app).to.contain(<MoveList moves={[]}/>);
     expect(app).to.contain(<span className="red">{game.fetchState.error}</span>);
