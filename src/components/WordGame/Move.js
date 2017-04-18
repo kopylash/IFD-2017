@@ -15,7 +15,7 @@ const Move = (props) => {
 };
 
 Move.propTypes = {
-  correct: React.PropTypes.bool.isRequired,
+  correct: React.PropTypes.bool,
   guess: React.PropTypes.string.isRequired,
   letterMatches: React.PropTypes.arrayOf(React.PropTypes.bool).isRequired
 };
