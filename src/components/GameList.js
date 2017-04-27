@@ -6,7 +6,7 @@ import NumberGame from '../components/NumberGame';
 import { GAME_TYPES } from '../constants';
 
 const GameList = (props) => {
-  return (
+  return props.show ? (
     <div className="ordered-reverse">
       {props.games.map((game) => {
         return game.type === GAME_TYPES.WORD
@@ -14,12 +14,13 @@ const GameList = (props) => {
           : <NumberGame key={game.id} game={game} onGuess={props.guess}/>;
       })}
     </div>
-  );
+  ) : null;
 };
 
 GameList.propTypes = {
   games: React.PropTypes.array,
-  guess: React.PropTypes.func
+  guess: React.PropTypes.func,
+  show: React.PropTypes.bool
 };
 
 export default GameList;

@@ -6,7 +6,8 @@ import NewGame from '../components/NewGame';
 
 const mapStateToProps = (state) => ({
   inFlight: state.games.fetchState.inFlight,
-  error: state.games.fetchState.error
+  error: state.games.fetchState.error,
+  show: state.connection.connected
 });
 
 const mapDispatchToProps = (dispatch) => ({

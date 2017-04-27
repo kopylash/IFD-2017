@@ -5,7 +5,8 @@ import { GameActions } from '../actions';
 import GameList from '../components/GameList';
 
 const mapStateToProps = (state) => ({
-  games: state.games.list
+  games: state.games.list,
+  show: state.connection.connected
 });
 
 const mapDispatchToProps = (dispatch) => ({
