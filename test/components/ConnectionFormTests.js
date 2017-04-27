@@ -31,11 +31,34 @@ describe('GuessWordForm', () => {
     expect(disconnect).to.have.been.called;
   });
 
-  it('renders input and connect button if not connected');
+  it('renders input and connect button if not connected', () => {
+    const form = shallow(<ConnectionForm inFlight={false} connected={false} connect={sinon.stub()}
+                                         disconnect={sinon.stub()}/>);
+    expect(form).to.have.descendants('input');
+    expect(form).to.have.descendants('#connectBtn');
+    expect(form).to.not.have.descendants('#disconnectBtn');
+  });
 
-  it('renders disconnect button if connected');
+  it('renders disconnect button if connected', () => {
+    const form = shallow(<ConnectionForm inFlight={false} connected={true} connect={sinon.stub()}
+                                         disconnect={sinon.stub()}/>);
+    expect(form).to.not.have.descendants('input');
+    expect(form).to.not.have.descendants('#connectBtn');
+    expect(form).to.have.descendants('#disconnectBtn');
+  });
 
-  it('renders nothing except message about connection in process');
+  it('renders nothing except message about connection in process', () => {
+    const form = shallow(<ConnectionForm inFlight={true} connected={false} connect={sinon.stub()}
+                                         disconnect={sinon.stub()}/>);
+    expect(form).to.contain(<p>Connecting...</p>);
+    expect(form).to.not.have.descendants('#connectBtn');
+    expect(form).to.not.have.descendants('input');
+    expect(form).to.not.have.descendants('#disconnectBtn');
+  });
 
-  it('renders error');
+  it('renders error', () => {
+    const form = shallow(<ConnectionForm inFlight={false} connected={false} connect={sinon.stub()}
+                                         disconnect={sinon.stub()} error={'Error'}/>);
+    expect(form).to.contain(<span className="red">Error</span>);
+  });
 });
