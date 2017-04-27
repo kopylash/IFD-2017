@@ -15,8 +15,10 @@ class ConnectionForm extends Component {
   }
 
   onSubmit() {
-    this.props.connect(this.state.playerName);
-    this.setState({playerName: ''});
+    if (this.state.playerName) {
+      this.props.connect(this.state.playerName);
+      this.setState({playerName: ''});
+    }
   }
 
   render() {
