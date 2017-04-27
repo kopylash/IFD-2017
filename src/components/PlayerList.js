@@ -8,7 +8,7 @@ const PlayerList = (props) => {
       <h3>Active players</h3>
       <div>
         {props.players.map((player) => {
-          return <div key={player.id}>{`${player.name} ${player.id === props.currentPlayerId ? '(you)' : ''}`}</div>;
+          return <div key={player.id}>{`${player.name}${player.id === props.currentPlayerId ? ' (you)' : ''}`}</div>;
         })}
       </div>
     </div>

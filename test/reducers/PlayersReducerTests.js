@@ -25,12 +25,12 @@ describe('Connection tests', () => {
   });
 
   it('should reset state on connection close', () => {
-    const previuosState = [{id: '1', name: 'vlad'}, {id: '3', name: 'valera'}]
+    const previousState = [{id: '1', name: 'vlad'}, {id: '3', name: 'valera'}];
     const action = {
       type: CONNECTION_CLOSED,
       payload: {}
     };
-    const newState = reducer(previuosState, action);
+    const newState = reducer(previousState, action);
 
     expect(newState).to.be.empty;
   });
