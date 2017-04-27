@@ -7,7 +7,6 @@ import {
 
 import {
   connectionAccepted,
-  connectionFailed,
   connectionClosed,
   playersConnected
 } from '../actions/connectionActions';
@@ -21,12 +20,9 @@ const initiateConnection = (parameters) => (dispatch) => {
     onOpen: () => {
       console.info('connection opened');
     },
-    onClose: ({code, reason}) => {
+    onClose: ({reason}) => {
       console.info('connection closed');
-      if (code === 4000) {
-        dispatch(connectionFailed({error: reason}));
-        dispatch(connectionClosed());
-      }
+      dispatch(connectionClosed({reason}));
     },
     onMessage: ({eventName, payload}) => dispatch(messageToAction[eventName](payload)),
     parameters

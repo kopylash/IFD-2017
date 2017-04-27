@@ -3,7 +3,6 @@
 import {
   CONNECTION_REQUEST,
   CONNECTION_ACCEPTED,
-  CONNECTION_FAILURE,
   CONNECTION_CLOSED
 } from '../actions/actionTypes';
 
@@ -29,14 +28,15 @@ const connection = (state = initialState, action) => {
         playerId: action.payload.playerId
       };
     }
-    case CONNECTION_FAILURE: {
-      return {
-        ...state,
-        fetchState: {inFlight: false, ...action.payload}
-      };
-    }
     case CONNECTION_CLOSED: {
-      return initialState;
+      if (action.payload.reason) {
+        return {
+          ...initialState,
+          fetchState: {inFlight: false, error: formatError(action.payload.reason)}
+        };
+      } else {
+        return initialState;
+      }
     }
     default:
       return state;
@@ -44,3 +44,13 @@ const connection = (state = initialState, action) => {
 };
 
 export default connection;
+
+
+const formatError = (errorMessage) => {
+  switch (errorMessage) {
+    case 'player-name-taken':
+      return 'This player name is already taken. Try another one';
+    default:
+      return errorMessage;
+  }
+};

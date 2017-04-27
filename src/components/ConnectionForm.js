@@ -14,6 +14,11 @@ class ConnectionForm extends Component {
     this.setState({playerName: event.target.value});
   }
 
+  onSubmit() {
+    this.props.connect(this.state.playerName);
+    this.setState({playerName: ''});
+  }
+
   render() {
     return this.props.inFlight ? <p>Connecting...</p> : (
       <div>
@@ -25,7 +30,7 @@ class ConnectionForm extends Component {
                       value={this.state.playerName}
                       onChange={this.onChange.bind(this)}
           />
-            <button id="connectBtn" onClick={() => this.props.connect(this.state.playerName)}>Connect</button>
+            <button id="connectBtn" onClick={this.onSubmit.bind(this)}>Connect</button>
           </div>
         )}
         {this.props.error ? <span className="red">{this.props.error}</span> : null}

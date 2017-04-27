@@ -2,14 +2,14 @@
 
 import {
   CONNECTION_CLOSED,
-  PLAYERS_CONNECTED
+  PLAYERS_CHANGED
 } from '../actions/actionTypes';
 
 const initialState = [];
 
 const players = (state = initialState, action) => {
   switch (action.type) {
-    case PLAYERS_CONNECTED: {
+    case PLAYERS_CHANGED: {
       return action.payload;
     }
     case CONNECTION_CLOSED: {
