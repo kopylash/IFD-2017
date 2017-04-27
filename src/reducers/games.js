@@ -6,7 +6,8 @@ import {
   GAME_CREATION_SUCCESS,
   GUESS_REQUEST,
   GUESS_FAILURE,
-  GUESS_SUCCESS
+  GUESS_SUCCESS,
+  CONNECTION_CLOSED
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -89,6 +90,9 @@ const games = (state = initialState, action) => {
           ...state.list.slice(index + 1)
         ]
       };
+    }
+    case CONNECTION_CLOSED: {
+      return initialState;
     }
     default:
       return state;

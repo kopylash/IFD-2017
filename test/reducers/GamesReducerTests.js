@@ -7,7 +7,8 @@ import {
   GAME_CREATION_SUCCESS,
   GUESS_REQUEST,
   GUESS_FAILURE,
-  GUESS_SUCCESS
+  GUESS_SUCCESS,
+  CONNECTION_CLOSED
 } from '../../src/actions/actionTypes';
 import { GAME_TYPES, NUMBER_GAME_RESPONSES, GAME_STATUSES } from '../../src/constants';
 
@@ -236,5 +237,33 @@ describe('Game guess', () => {
     const newState = reducer(previousState, action);
 
     expect(newState.list[0].fetchState.error).to.eql(action.payload.error.error);
+  });
+
+  it('should reset state on connection close', () => {
+    const previousState = {
+      list: [{
+        id: '1',
+        type: GAME_TYPES.NUMBER,
+        status: GAME_STATUSES.WAITING_FOR_MOVE,
+        moves: [],
+        fetchState: {inFlight: false}
+      }]
+    };
+
+    const action = {
+      type: CONNECTION_CLOSED,
+      payload: {}
+
+    };
+
+    const newState = reducer(previousState, action);
+
+    expect(newState).to.eql({
+      fetchState: {
+        inFlight: false,
+        error: null
+      },
+      list: []
+    });
   });
 });
