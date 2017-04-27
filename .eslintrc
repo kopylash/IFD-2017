@@ -27,6 +27,7 @@
     "object-curly-spacing": "off",
     "require-jsdoc": "off",
     "comma-dangle": "off",
-    "no-console": "warn"
+    "no-console": ["error", {"allow": ["info", "warn", "error"]}],
+    "linebreak-style": "off"
   }
 }
