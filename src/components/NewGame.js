@@ -22,7 +22,7 @@ NewGame.propTypes = {
   createGame: React.PropTypes.func,
   inFlight: React.PropTypes.bool,
   error: React.PropTypes.string,
-  show: React.PropTypes.bool
+  show: React.PropTypes.bool.isRequired
 };
 
 export default NewGame;
