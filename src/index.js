@@ -3,9 +3,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import {createStore, applyMiddleware, compose} from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
+import { createBrowserHistory } from 'history';
+import { connectRouter, routerMiddleware } from 'connected-react-router';
 import App from './containers/App';
 import gameServerMiddleware from './middlewares/GameServerMiddleware';
 import webSocketMiddleware from './middlewares/WebsocketMiddleware';
@@ -15,10 +17,13 @@ import webSocketMiddleware from './middlewares/WebsocketMiddleware';
 // http://redux.js.org/docs/api/applyMiddleware.html#tips for more information.
 const composeStoreEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+const history = createBrowserHistory();
+
 let store = createStore(
-  rootReducer,
+  connectRouter(history)(rootReducer),
   composeStoreEnhancers(
     applyMiddleware(
+      routerMiddleware(history),
       thunk,
       gameServerMiddleware,
       webSocketMiddleware
@@ -28,7 +33,7 @@ let store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <App history={history}/>
   </Provider>,
   document.getElementById('root')
 );
