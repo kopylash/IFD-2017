@@ -10,6 +10,8 @@ import {
   guess,
 } from '../../src/actions/gameServerActions';
 
+import { GameActions } from '../../src/actions/';
+
 import { GAME_TYPES, GAME_STATUSES, NUMBER_GAME_RESPONSES } from '../../src/constants';
 
 describe('Server actions :: game creation', () => {
@@ -25,10 +27,19 @@ describe('Server actions :: game creation', () => {
     requests = [];
     xhr.onCreate = (xhr) => requests.push(xhr);
     dispatch = sinon.stub();
+    sinon.stub(GameActions, 'gameCreationSucceeded').returns({
+      type: GAME_CREATION_SUCCESS,
+      payload: {
+        id: '1',
+        type: GAME_TYPES.NUMBER,
+        status: GAME_STATUSES.WAITING_FOR_MOVE
+      }
+    });
   });
 
   afterEach(() => {
     xhr.restore();
+    sinon.restore(GameActions, 'gameCreationSucceeded');
   });
 
   it('dispatches GAME_CREATION_FAILURE when xhr fails', () => {
@@ -42,7 +53,7 @@ describe('Server actions :: game creation', () => {
     });
   });
 
-  it('dispatches GAME_CREATION_SUCCESS when xhr fails', () => {
+  it('dispatches GAME_CREATION_SUCCESS when xhr succeeds', () => {
     createGame({type: GAME_TYPES.NUMBER})(dispatch);
 
     requests[0].respond(201, {}, JSON.stringify({

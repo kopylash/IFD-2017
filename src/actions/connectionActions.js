@@ -7,6 +7,8 @@ import {
   PLAYERS_CHANGED
 } from './actionTypes';
 
+import { push } from 'connected-react-router';
+
 const createPayloadForwardingAction = (type) => (payload) => ({type: type, payload: payload});
 
 export const connect = (playerName) => {
@@ -17,7 +19,13 @@ export const connect = (playerName) => {
     }
   };
 };
-export const connectionClosed = createPayloadForwardingAction(CONNECTION_CLOSED);
+export const connectionClosed = (payload) => (dispatch) => {
+  dispatch({
+    type: CONNECTION_CLOSED,
+    payload: payload
+  });
+  dispatch(push('/'));
+};
 
 export const connectionAccepted = createPayloadForwardingAction(CONNECTION_ACCEPTED);
 export const playersConnected = createPayloadForwardingAction(PLAYERS_CHANGED);

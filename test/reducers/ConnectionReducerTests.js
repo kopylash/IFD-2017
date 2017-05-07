@@ -1,6 +1,7 @@
 'use strict';
 
 import reducer from '../../src/reducers/connection';
+import { formatError } from '../../src/reducers/connection';
 import {
   CONNECTION_REQUEST,
   CONNECTION_ACCEPTED,
@@ -32,7 +33,7 @@ describe('Connection tests', () => {
   });
 
   it('should save playerId, mark state as connected and remove inFlight state when connection accepted', () => {
-    const previuosState = {
+    const previousState = {
       fetchState: {
         inFlight: true,
         error: null
@@ -46,7 +47,7 @@ describe('Connection tests', () => {
         playerId: '123'
       }
     };
-    const newState = reducer(previuosState, action);
+    const newState = reducer(previousState, action);
 
     expect(newState.fetchState.inFlight).to.be.false;
     expect(newState.connected).to.be.true;
@@ -77,7 +78,7 @@ describe('Connection tests', () => {
   });
 
   it('should reset state if connection was closed by user', () => {
-    const previuosState = {
+    const previousState = {
       fetchState: {
         inFlight: false,
         error: null
@@ -89,7 +90,7 @@ describe('Connection tests', () => {
       type: CONNECTION_CLOSED,
       payload: {}
     };
-    const newState = reducer(previuosState, action);
+    const newState = reducer(previousState, action);
 
     expect(newState).to.eql({
       fetchState: {
@@ -101,23 +102,15 @@ describe('Connection tests', () => {
     });
   });
 
-  it('should format error if connection was closed with known reason', () => {
-    const previuosState = {
-      fetchState: {
-        inFlight: false,
-        error: null
-      },
-      connected: true,
-      playerId: '123'
-    };
-    const action = {
-      type: CONNECTION_CLOSED,
-      payload: {
-        reason: 'player-name-taken'
-      }
-    };
-    const newState = reducer(previuosState, action);
+  it('formatError should format error if connection was closed with known reason', () => {
+    const formattedError = formatError('player-name-taken');
 
-    expect(newState.fetchState.error).to.eql('This player name is already taken. Try another one');
+    expect(formattedError).to.eql('This player name is already taken. Try another one');
+  });
+
+  it('formatError should return input if connection was closed with unknown reason', () => {
+    const formattedError = formatError('socket-hang-up');
+
+    expect(formattedError).to.eql('socket-hang-up');
   });
 });

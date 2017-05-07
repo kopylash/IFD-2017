@@ -32,7 +32,7 @@ const connection = (state = initialState, action) => {
       if (action.payload.reason) {
         return {
           ...initialState,
-          fetchState: {inFlight: false, error: formatError(action.payload.reason)}
+          fetchState: {inFlight: false, error: action.payload.reason}
         };
       } else {
         return initialState;
@@ -46,11 +46,11 @@ const connection = (state = initialState, action) => {
 export default connection;
 
 
-const formatError = (errorMessage) => {
-  switch (errorMessage) {
+export const formatError = (errorCode) => {
+  switch (errorCode) {
     case 'player-name-taken':
       return 'This player name is already taken. Try another one';
     default:
-      return errorMessage;
+      return errorCode;
   }
 };
