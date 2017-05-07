@@ -1,6 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
+import {formatError} from '../reducers/connection';
 
 class ConnectionForm extends Component {
   constructor(props) {
@@ -35,7 +36,7 @@ class ConnectionForm extends Component {
             <button id="connectBtn" onClick={this.onSubmit.bind(this)}>Connect</button>
           </div>
         )}
-        {this.props.error ? <span className="red">{this.props.error}</span> : null}
+        {this.props.error ? <span className="red">{formatError(this.props.error)}</span> : null}
       </div>
     );
   }
