@@ -32,7 +32,7 @@
     "test-watch": "mocha --watch",
     "lint": "eslint src/",
     "lint-test": "eslint test/ -c test/.eslintrc",
-    "start-server": "game_lobby_server --delay=1000 --failure-percentage=10"
+    "start-server": "game_lobby_server --delay=0 --failure-percentage=10"
   },
   "dependencies": {
     "connected-react-router": "^4.1.0",
