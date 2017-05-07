@@ -1,25 +1,28 @@
 'use strict';
 
 import React from 'react';
-import WordGame from '../components/WordGame';
-import NumberGame from '../components/NumberGame';
-import { GAME_TYPES } from '../constants';
+import { Link } from 'react-router-dom';
+import { GAME_TYPES, GAME_STATUSES } from '../constants';
 
 const GameList = (props) => {
+  const formatGameType = (type) => (type === GAME_TYPES.WORD ? 'Word game.' : 'Number game.');
+  const formatGameStatus = (status) => (
+    `Status: ${status === GAME_STATUSES.WAITING_FOR_MOVE ? 'waiting for move' : 'finished'}`
+  );
+
   return props.show ? (
     <div className="ordered-reverse">
-      {props.games.map((game) => {
-        return game.type === GAME_TYPES.WORD
-          ? <WordGame key={game.id} game={game} onGuess={props.guess}/>
-          : <NumberGame key={game.id} game={game} onGuess={props.guess}/>;
-      })}
+      {props.games.length ? props.games.map((game) => (
+        <Link to={'games/' + game.id} key={game.id}>
+          {`${formatGameType(game.type)} ${formatGameStatus(game.status)}`}
+        </Link>
+      )) : 'There are no games, create new one to play!'}
     </div>
   ) : null;
 };
 
 GameList.propTypes = {
   games: React.PropTypes.array,
-  guess: React.PropTypes.func,
   show: React.PropTypes.bool
 };
 
