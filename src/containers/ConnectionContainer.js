@@ -12,7 +12,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   connect: (playerName) => (dispatch(ConnectionActions.connect(playerName))),
-  disconnect: () => (dispatch(ConnectionActions.connectionClosed()))
+  disconnect: () => (dispatch(ConnectionActions.connectionClosed({})))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConnectionForm);
